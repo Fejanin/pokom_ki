@@ -74,7 +74,8 @@ class POKOM_Reader:
 
 
     def __call__(self):
-        return round(sum([i.num_order for i in self.all_rows]), 3)
+        data = [i.num_order for i in self.all_rows if i.num_order]
+        return round(sum(data), 3) # TODO проверить на ошибки
 
 
 class OneC:
@@ -196,7 +197,7 @@ class POKOM_Rewriter:
                     self.tracker.error.append(f'Объект - {obj1} в количестве {i.num_order} НЕ НАЙДЕН.')
         self.read_file.wb.save(read_name_file)
         self.write_file.wb.save(write_name_file)
-        self.tracker.wight1 = self.read_file()
+        self.tracker.wight1 = self.read_file() # TODO проверить на ошибки
         self.tracker.create_file()
 
 
