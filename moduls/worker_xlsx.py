@@ -57,8 +57,8 @@ class XLSX_Data:
 class POKOM_Reader:
     '''Скачивает данные из file.
 Формирует список объектов XLSX_Data. Предназначен для работы со старыми версиями заказников.'''
-    def __init__(self, file):
-        self.wb = openpyxl.load_workbook(file)
+    def __init__(self, file, data_only=False):
+        self.wb = openpyxl.load_workbook(file, data_only=data_only)
         self.ws = self.wb.active
         self.all_rows = []
         self.read()
@@ -170,7 +170,7 @@ class POKOM_Rewriter:
         self.tracker = Tracker()
         self.old_data = [list(map(lambda x: x.value, i))[0].strip() for i in self.read_old_date()]
         if not flag_pocom: # файл ПОКОМ
-            self.read_file = POKOM_Reader(read_name_file)
+            self.read_file = POKOM_Reader(read_name_file, data_only=True)
         else:
             if flag_pocom == '1С': # "С" - символ кирилицей!!!!
                 self.read_file = OneC(read_name_file)
