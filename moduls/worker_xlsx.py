@@ -233,6 +233,6 @@ class Tracker:
             for i in self.message:
                 f.write(i + '\n')
             f.write(f'\nВес продукции из первого файла: {self.wight1}\n')
-            f.write(f'Вес продукции во втором фале составляет: {round(self.wight2, 3)}\n')
+            f.write(f'Вес продукции во втором файле составляет: {round(self.wight2, 3)}\n')
 
 
