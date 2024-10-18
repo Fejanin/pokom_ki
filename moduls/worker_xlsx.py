@@ -167,7 +167,7 @@ class POKOM_Rewriter:
     '''Основной класс. Создает списки с данными из читаемого и записываемого файла, проводит их сравнения и записывает совпавшие данные.
 Создает файл REPORT.txt с отчетом о проделанной работе.'''
     def __init__(self, read_name_file, write_name_file, flag_pocom = False):
-        self.tracker = Tracker()
+        self.tracker = Tracker(read_name_file)
         self.old_data = [list(map(lambda x: x.value, i))[0].strip() for i in self.read_old_date()]
         if not flag_pocom: # файл ПОКОМ
             self.read_file = POKOM_Reader(read_name_file, data_only=True)
@@ -190,7 +190,7 @@ class POKOM_Rewriter:
                     self.tracker.message.append(f'Перенос данных из {obj1} ==> \n\t{obj2}, в количестве {i.num_order}')
                     self.tracker.wight2 += i.num_order
                     continue
-            if not flag and i.num_order: # ТРЕБУЕТСЯ ПРОВЕРИТЬ ПРАВИЛЬНОСТЬ ПРОВЕРКИ!!!
+            if not flag and i.num_order:
                 if i.product in self.old_data:
                     self.tracker.error.append(f'Объект - {obj1} в количестве {i.num_order} не добавлены, т.к. это УСТАРЕВШИЕ СКЮ.')
                 else:
@@ -215,7 +215,8 @@ class POKOM_Rewriter:
 
 class Tracker:
     '''Создает текстовый файл с результатами переноса данных (в т.ч. и ошибками)'''
-    def __init__(self):
+    def __init__(self, read_name_file):
+        self.name_file = read_name_file[:-5]
         self.error = []
         self.message = []
         self.wight1 = 0
@@ -224,7 +225,7 @@ class Tracker:
 
     def create_file(self):
         '''Создание файла с отчетом о проделанной работе.'''
-        with open('REPORT.txt', 'w') as f:
+        with open(f'REPORT {self.name_file}.txt', 'w') as f:
             if self.error:
                 f.write(f'Обнаружены следующие ошибки:\n')
                 for i in self.error:
