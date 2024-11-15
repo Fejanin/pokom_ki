@@ -75,7 +75,7 @@ class POKOM_Reader:
 
     def __call__(self):
         data = [i.num_order for i in self.all_rows if i.num_order]
-        return round(sum(data), 3) # TODO проверить на ошибки
+        return round(sum(data), 3)
 
 
 class OneC:
